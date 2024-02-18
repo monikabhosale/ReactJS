@@ -1,0 +1,174 @@
+Event Binding
+- Event is a message sent by sender to its subscriber in order notify the change.
+- Event follows a software design pattern called  "Observer".
+- It is a behavioural pattern. Usually behavioural patterns are communication patterns.
+- A communication pattern defines how a object communicates with its class.
+- Event uses a delegate mechanism, which is a function pointer mechanism.
+
+Syntax:
+        function InsertClick()                => Subscriber
+        {
+    
+        }
+
+        <button  onClick={InsertClick}>         => Sender
+
+- Subscriber comprises actions to perform.
+- Sender uses trigger that notifies the subscriber.
+- Subscriber executes the function when event is triggered by Sender.
+
+        onClick={InsertClick}
+        
+        onClick                => Event
+        onClick={InsertClick}    => Event Handler
+        function InsertClick() {}    => Event Listener
+
+- All JavaScript events are Browser Events. [BOM]
+- React can't use browser events directly.
+- React uses "SyntheticEvents" library, which is a virtual DOM events library.
+- SyntheticEvents map to browser events.
+
+        Browser Event        SyntheticEvent
+        ------------------------------------------------------
+        onclick                onClick
+        onchange            onChange
+        onblur                onBlur
+        onkeyup                onKeyup
+
+Configuring Events in React:
+- Events in React can be configured in 2 ways
+    1. Inline Events
+    2. Embedded Events
+
+Inline Events:
+- In this technique the events and listeners are configured in side element directly.
+
+    <button onClick={alert("Hello React !")}> Hello </button>
+
+ Note: The actions configured for event will trigger automatically at the time of mounting
+       the component.
+
+- You have to "refactor" the functionality in order to execute only when event is triggered
+
+    <button  onClick={ function(){ alert("Hello React !");} }> Hello </button>
+
+    <button  onClick={ () => alert("Hello React !") }>  Hello </button>
+
+    <button  onClick={ () => { alert("Hi !"); alert("Welcome"); } }> Hello </button>
+
+Ex: 
+event-binding.jsx
+
+
+export function EventBinding(){
+    return(
+        <div className="container-fluid">
+            <h3>Event Binding</h3>
+            <button onClick={()=> {alert("Hello ! React"); alert("Welcome")}}>Hello</button>
+        </div>
+    )
+}
+
+
+Handling Generic Elements:
+- Generic elements are the HTML elements that have a default functionality configured.
+- When you define events both generic and custom events will fireup.
+- You have to disable the default event configured for element by using 
+            "preventDefault()"
+- preventDefault() is a method of event argument. You have to access with reference of event.
+
+Syntax:
+  <form  onSubmit={ (e)=> { alert("Submitted"); e.preventDefault(); } }>
+
+    <button> Submit </button>
+
+  </form>
+
+Ex: 
+event-binding.jsx
+
+export function EventBinding(){
+    return(
+        <div className="container-fluid">
+            <h3>Event Binding</h3>
+            <form onSubmit={(e)=>{alert("Form Submits its data to API"); e.preventDefault()}}>
+                <dl>
+                    <dt>Name</dt>
+                    <dd><input type="text" name="Name"/></dd>
+                    <dt>Age</dt>
+                    <dd><input type="number" name="Age"/></dd>
+                </dl>
+                <button>Submit</button>
+            </form>
+        </div>
+    )
+}
+
+Handling Propagation:
+- It is the process of notifying the subscribers of child and to its parent.
+- If user clicks on child element, it propagates notification to its parent.
+- You can stop the propagation by using the event argument method.
+        e.stopPropagation()
+- It is defined only for child element event.
+
+Syntax:
+<div onClick={ ()=> alert("div clicked") }>
+
+   <button onClick={ (e) => { alert("button clicked"); e.stopPropagation() } }>
+     Submit
+   </button>
+
+</div>
+
+Ex: 
+event-binding.jsx
+
+export function EventBinding(){
+    return(
+        <div className="container-fluid">
+            <h3>Event Binding</h3>
+            <div onClick={()=>{alert("Div Clicked")}} className="bg-dark text-white p-3">
+                <p>Parent Element</p>
+                <button onClick={(e)=>{alert("Button Clicked"); e.stopPropagation()}}>Child Element</button>
+            </div>
+        </div>
+    )
+}
+
+Handling Event Arguments:
+- JavaScript events have 2 default arguments
+    a) this
+    b) event
+- "this" sends information about current element, which includes
+    id, name, className, src, href etc..
+
+- "event" sends information about current event, which includes
+    clientX, clientY, which, shiftKey, altKey, ctrlKey etc..
+
+Syntax:
+    <button  onclick="InsertClick(this, event)">  
+
+- JavaScript event can have custom arguments
+
+Syntax:
+    <button onclick="InsertClick(...[10, "A", true, [ ], { }])">
+
+    function InsertClick(id, name, stock, cities, rating)
+    {
+    }
+
+
+    <button onclick="InsertClick(this,...[10, "A", true, [ ], { }])">
+
+- React can't have 2 default arguments like this and event. 
+- It uses only a SyntheticEvent argument reference "e", which can access both element and event details.
+            
+Syntax:
+    <button  id="btnInsert"  name="Insert"  onClick={ (e) => alert(`${e.target.id}\n ${e.clientX}`) }>
+
+                e.clientX
+                e.clientY
+                e.ctrlKey
+                e.target.id
+                e.target.name
+                e.target.className
