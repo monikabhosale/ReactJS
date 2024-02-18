@@ -1,0 +1,249 @@
+Component Mounting & Unmounting
+- Mount is a phase in which component is created and rendered.
+- Unmount is a phase which occurs when user switches from one component to another.
+- In unmount phase the memory of component is destroyed and component request ends.
+
+FAQ: What is the event or method used by browser to load and render your HTML page?
+Ans:  DOMContentLoaded()
+
+- If you are using React function components then the mount and unmount are defined
+  by using the hook  "useEffect()".
+
+- Every component can mount only once.
+- If you want the component to mount again you have to define the dependency.
+- There can be zero or more dependencies.
+
+Syntax:
+    useEffect(()=>{
+        //actions on mount;
+        return(){
+           //actions on unmount - optional
+        }
+    },[ dependencies ]);
+
+Ex: 
+flipkart.jsx
+
+import { useEffect, useState } from "react";
+
+export function Flipkart(){
+
+    const [products, setProducts] = useState([{title:'', price:0, ratings:{rate:0, count:0, reviews:0}, features:[], photo:''}]);
+
+    function LoadProducts(){
+        fetch("products.json")
+        .then(res=>res.json())
+        .then(products=>{
+            setProducts(products);
+        })
+    }
+
+    useEffect(()=>{
+       LoadProducts();
+    },[]);
+
+    return(
+        <div className="container-fluid">
+             {
+                products.map(product=>
+                    <div className="row mt-4" key={product.title}>
+                    <div className="col-3">
+                        <img src={product.photo} width="250"/>
+                    </div>
+                    <div className="col-7">
+                        <p className="text-primary h4">{product.title}</p>
+                        <div>
+                            <span className="bg-success text-white p-2 rounded">
+                                {product.ratings.rate} <span className="bi bi-star-fill"></span>
+                            </span>
+                            <span className="ms-3">
+                                <b>{product.ratings.count} Ratings & {product.ratings.reviews} Reviews</b> 
+                            </span>
+                        </div>
+                        <ul className="mt-4">
+                            {
+                                product.features.map(feature=>
+                                    <li key={feature}>{feature}</li>
+                                    )
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-2">
+                        <p className="h3">&#8377; {product.price} </p>
+                    </div>
+                    
+                    </div>
+                    
+                    )
+             }
+        </div>
+    )
+}
+
+                                  Nasa API
+                              (api.nasa.gov)
+Ex:
+nasa.jsx
+
+import { useEffect, useState } from "react"
+
+export function Nasa(){
+    const [mars, setMars] = useState({});
+
+    useEffect(()=>{
+        fetch("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY")
+        .then(res=> res.json())
+        .then(obj=>{
+            setMars(obj);
+        })
+    },[]);
+
+
+    return(
+        <div className="container-fluid">
+            <h2>Mars Rover Photos</h2>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Photo Id</th>
+                        <th>Preview</th>
+                        <th>Camera Name</th>
+                        <th>Rover Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        mars.photos.map(photo=>
+                            <tr key={photo.id}>
+                                <td>{photo.id}</td>
+                                <td>
+                                    <a href={photo.img_src} target="_blank">
+                                    <img src={photo.img_src} width="100" height="100" />
+                                    </a>
+                                </td>
+                                <td>{photo.camera.full_name}</td>
+                                <td>{photo.rover.name}</td>
+                            </tr>
+                            )
+                    }
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+Ex: Card Style
+nasa.jsx
+
+import { useEffect, useState } from "react"
+
+export function Nasa(){
+    const [mars, setMars] = useState({});
+
+    useEffect(()=>{
+        fetch("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY")
+        .then(res=> res.json())
+        .then(obj=>{
+            setMars(obj);
+        })
+    },[]);
+
+
+    return(
+        <div className="container-fluid">
+            <h2>Mars Rover Photos</h2>
+            <main className="d-flex flex-wrap">
+                {
+                    mars.photos.map(photo=>
+                        <div key={photo.id} className="card p-2 m-2" style={{width:'200px'}}>
+                            <img src={photo.img_src} className="card-img-top" height="150"/>
+                            <div className="card-header">
+                                <h3>{photo.id}</h3>
+                            </div>
+                            <div className="card-body">
+                                <dl>
+                                    <dt>Camera</dt>
+                                    <dd>{photo.camera.full_name}</dd>
+                                    <dt>Rover</dt>
+                                    <dd>{photo.rover.name}</dd>
+                                </dl>
+                            </div>
+                            <div className="card-footer">
+                                <a className="btn btn-primary w-100" target="_blank" href={photo.img_src}>View Photo</a>
+                            </div>
+                        </div>
+                        )
+                }
+            </main>
+        </div>
+    )
+}
+
+                        fakestoreapi.com
+
+
+import { useEffect, useState } from "react"
+
+export function Fakestore(){
+    const [products, setProducts] = useState([{id:0, title:'', price:0, description:'', image:'', rating:{rate:0, count:0}, category:''}]);
+
+    function LoadProducts(){
+        fetch("http://fakestoreapi.com/products")
+        .then(res=>res.json())
+        .then(products=>{
+            setProducts(products);
+        })
+    }
+
+
+    useEffect(()=>{
+        LoadProducts();
+    },[]);
+
+    return(
+        <div className="container-fluid">
+            <header className="d-flex justify-content-between bg-danger text-white p-2">
+                <div>
+                    <h3>Shopper.</h3>
+                </div>
+                <div>
+                    <span className="me-3">Home</span>
+                    <span className="me-3">Electronics</span>
+                    <span className="me-3">Men's Fashion</span>
+                    <span className="me-3">Women's Fashion</span>
+                    <span className="me-3">Jewelery</span>
+                </div>
+                <div>
+                    <span className="bi bi-search me-3"></span>
+                    <span className="bi bi-person me-3"></span>
+                    <span className="bi bi-cart4"></span>
+                </div>
+            </header>
+            <section className="row mt-3">
+                <nav className="col-2">
+
+                </nav>
+                <main className="col-8 d-flex flex-wrap">
+                   {
+                     products.map(product=>
+                        <div key={product.id} className="card m-2 p-2" style={{width:'250px'}}>
+                            <img src={product.image} className="card-img-top" height="140" />
+                            <div className="card-header overflow-auto" style={{height:'140px'}}>
+                                <p>{product.title}</p>
+                            </div>
+                            <div className="card-body">
+                                <dl>
+                                    <dt>Price</dt>
+                                    <dd>{product.price}</dd>
+                                    <dt>Rating</dt>
+                                    <dd>{product.rating.rate} <span className="bi bi-star-fill text-success"></span> </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        )
+                   }
+                </main>
+            </section>
+        </div>
+    )
+}
