@@ -1,0 +1,48 @@
+Examples 
+1. Netflix
+2. Shopper
+
+                        Data Binding in React                            
+- Data Binding is a technique used in web applications, where data is accessed from a source and updated into UI.
+- JavaScript depends on lot of DOM manipulations to handle data binding.
+- JavaScript required lot of event binding techniques to bind data.
+- React uses simple data binding expression that can bind data to UI.
+- The data binding expression in react is configured with " {   } ".
+
+Syntax:
+        var  userName = "John";
+
+        <p> Hello ! { userName } </p>
+
+- Data Binding in applications is classified into 2 types
+
+    1. One Way Binding
+    2. Two Way Binding
+    
+- React supports only One Way Binding
+- One Way Binding is a technique where data is accessed from source and update to UI. Any modification in UI will not update back into source.
+- Two Way Binding allows to access data from source and bind to UI. It identifies the changes in UI and updates back to source.
+- React requires event binding techniques to handle 2 way binding explicitly.
+- One Way Binding is fast and secured.
+
+Syntax:
+    var userName = "John";
+
+    <input type="text"  value={userName} />    => Not editable
+
+Binding Primitive and Non-Primitive data types to UI:
+Primitive Types
+- number
+- string
+- boolean
+- null
+- undefined
+- bigint
+- symbol
+
+Non Primitive
+- Array
+- Object
+- Map
+- Set
+- Date
