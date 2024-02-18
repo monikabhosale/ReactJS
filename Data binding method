@@ -1,0 +1,199 @@
+Primitive Types  [ES6]
+- number
+- string
+- boolean
+- null
+- undefined
+- symbol
+- bigint
+
+
+Boolean Type:
+
+* React boolean types configured with true or false can handle any value only using a condition.
+* You can't present boolean "true or false" directly in UI.
+* React uses boolean true & false for conditional rendering.
+* In order to display boolean true or false, you have to convert it into string.
+
+        (true)?"true":"false"
+
+Ex: 
+ data-binding.jsx
+
+export function DataBinding(){
+    
+    var id = 1;
+    var name = "Nike Casuals";
+    var stock = true;
+
+    return(
+        <div className="container-fluid">
+            <h2>Product Details</h2>
+            <dl>
+                <dt>Product Id</dt>
+                <dd>{id}</dd>
+                <dt>Name</dt>
+                <dd>{name}</dd>
+                <dt>Stock</dt>
+                <dd>{(stock==true)?"Available":"Out of Stock"}</dd>
+            </dl>
+        </div>
+
+    )
+}
+
+Number Type
+- React can display the numeric values directly.
+- If you want to format a number, then you can use "Math" object of JavaScript.
+
+Syntax:
+    var result = 10/3;
+    
+    <p> Division : ${Math.round(result)} </p>
+
+String Type:
+- You can use all JavaScript string methods.
+- String formatting methods:
+    bold()
+    italics()
+    fontcolor()
+    fontsize() 
+    toUpperCase()
+    toLowerCase()
+- String manipulation methods:
+    charAt()
+    charCodeAt()
+    indexOf() etc..
+
+Syntax:
+    var msg = "Welcome to React";
+    
+    <p> {msg.toUpperCase().slice(7)} </p>
+
+Undefined Type
+- It checks if value is defined in a reference during compile time.
+- If value is not defined then it returns "undefined".
+- React verifies "0" as undefined.
+
+Syntax:
+    var price = 0;
+    
+    <p> Price = {(price)?price: "Price not defined"} </p>
+
+
+Null Type
+- It defines that value is not provided into reference during runtime.
+
+Syntax:
+    var price = prompt("Enter Price");
+
+    <p> Price = {(price==null)?"Please Enter Price":price} </p>
+
+BigInt Type
+- It is used to configure large integer values safely.
+- It is defined with suffix "n". 
+- You can also use
+    Number.MAX_SAFE_INTEGER()
+
+Syntax:
+    var  price = 999993882828;            => not safe
+    var  price = 999993882828n;            => safe integer
+
+Symbol Type:
+- It refers to a hidden property in object.
+- It is not accessed over iterations or loops. 
+- But it is present in object and available to access individually.
+
+Syntax:
+    var  ProductId = Symbol();
+
+    var product = {
+        [ProductId] : 2,
+        Name : "TV"
+     }
+
+    product[ProductId]        => accessible
+
+    Object.keys(product);    => ProductId is not returned
+
+    for(var key in product)    => ProductId is not returned
+    {
+    }
+
+Ex:
+<script>
+    var ProductId = Symbol();
+    var product = {
+        [ProductId]: 1,
+        Name : "TV",
+        Price : 46000.33,
+        Rating:4.2
+    }
+    Object.keys(product).map((key)=>{
+      document.write(key + "<br>");
+    })
+    document.write("Product Id:" + product[ProductId]);
+</script>
+
+Summary
+- number
+- string
+- boolean
+- null
+- undefined
+- bigint
+- symbol
+                        Non-Primitive Types
+1. Array
+- You can use all array methods to bind array values in UI.
+- You can't use explicit iterations or loops in react.
+- Basic Array methods for reading data from array
+    toString()
+    join()
+    slice()
+    find()
+    filter()
+    map()
+    forEach() etc..
+
+Syntax:
+    var categories = ["A", "B", "C"];
+
+    {
+      categories.map(category=> <p> { category } </p>)
+    }
+
+Ex: 
+data-binding.jsx
+
+
+
+export function DataBinding(){
+    var categories = ["All", "Electronics", "Footwear", "Fashion"];
+    return(
+        <div className="container-fluid">
+            <nav className="btn-group-vertical">
+                {
+                    categories.map(category=><button className="btn btn-danger mb-1">{category}</button>)
+                }
+            </nav>
+           <h2>Categories</h2>
+           <ol>
+             {
+                categories.map((category)=><li>{category}</li>)
+             }
+           </ol>
+           <select>
+              {
+                 categories.map((category)=><option value={category}>{category}</option>)
+              }
+           </select>
+           <ul>
+              {
+                categories.map((category)=><li><input type="checkbox"/> <span>{category}</span> </li>)
+              }
+           </ul>
+        </div>
+
+    )
+}
