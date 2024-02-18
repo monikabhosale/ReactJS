@@ -1,0 +1,297 @@
+Object Type
+- Object comprises of key and value collection.
+- Key is "string" type and value is "any" type.
+- JSON [JavaScript Object Notation]
+
+Syntax:
+     {
+      Key: value,
+      Key: value
+    }
+
+Ex: 
+    var product = {
+        "Name": "TV",
+        "Price": 45000.33,
+        "Stock": true,
+        "Cities": ["Delhi", "Hyd"],
+        "Rating": { "Rate":4.2, "Count": 5000 }
+    }
+
+    <p> Name : { product.Name } </p>
+
+Ex:
+data-binding.jsx
+
+
+export function DataBinding(){
+    var mobile = {
+        "title": "realme C53 (Champion Black, 64 GB)",
+        "price": 10999,
+        "image": "realmeBlack.jpg",
+        "rating": {"rate":4.5, "count":12644, "reviews":575},
+        "features": [
+            "6 GB RAM | 64 GB ROM | Expandable Upto 2 TB",
+            "17.12 cm (6.74 inch) HD Display",
+            "108MP + 2MP | 8MP Front Camera",
+            "5000 mAh Battery",
+            "T612 Processor",
+            "1 Year Manufacturer Warranty for Phone and 6 Months Warranty for In the Box Accessories"
+        ]
+    }
+    return(
+        <div className="container-fluid">
+            <div className="mt-3 row">
+                <div className="col-3">
+                    <img src={mobile.image} />
+                </div>
+                <div className="col-6">
+                    <h3 className="text-primary">{mobile.title}</h3>
+                    <div>
+                        <span className="bg-success p-2 rounded rounded-2 text-white">
+                            {mobile.rating.rate} <span className="bi bi-star-fill"></span>
+                        </span>
+                        <span className="ms-2 fw-bold">
+                            {mobile.rating.count} Ratings & {mobile.rating.reviews} Reviews
+                        </span>
+                    </div>
+                    <div>
+                        <ul className="mt-3">
+                            {
+                                mobile.features.map(feature=>
+                                    <li>{feature}</li>
+                                    )
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div className="col-2">
+                    <h2>
+                       &#8377; {mobile.price}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
+                           Array of Objects
+- It is a collection of objects.
+
+Syntax:
+    [
+      { 
+        "Key":value,
+      },
+      {
+        "Key": value
+      }
+    ]
+
+Ex:
+data-binding.jsx
+
+
+export function DataBinding(){
+    var products = [
+        {Name: "Samsung TV", Price:45000.44},
+        {Name: "Nike Casuals", Price:6700.42}
+    ];
+
+    return(
+        <div className="container-fluid">
+            <table className="table table-hover caption-top">
+                <caption>Products List</caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        products.map(product=>
+                            <tr key={product.Name}>
+                                <td>{product.Name}</td>
+                                <td>{product.Price}</td>
+                            </tr>
+                            )
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    )
+}
+
+Ex: Card Style
+data-binding.jsx
+
+
+export function DataBinding(){
+    var products = [
+       {
+         "title": "realme C53 (Champion Black 64 GB)",
+         "image": "realmeBlack.jpg",
+         "price": 10999
+       },
+       {
+         "title": "realme C53 (Champion Gold 128 GB)",
+         "image": "realme.jpg",
+         "price": 15999
+       }
+    ];
+
+    return(
+        <div className="container-fluid">
+           <div className="mt-3 d-flex">
+              {
+                 products.map(product=>
+                    <div className="card p-2 m-2 w-25" key={product.title}>
+                        <div className="card-header bg-dark text-white">
+                            <h3>{product.title}</h3>
+                        </div>
+                        <div className="card-body">
+                            <img src={product.image} />
+                        </div>
+                        <div className="card-footer">
+                            <h3>&#8377; {product.price}</h3>
+                            <button className="btn btn-danger w-100">
+                                <span className="bi bi-cart4"></span> 
+                                Buy
+                            </button>
+                        </div>
+                    </div>
+                    )
+              }
+           </div>
+        </div>
+
+    )
+}
+
+Ex:
+data-binding.jsx
+
+
+export function DataBinding(){
+    
+    var menu = [
+         {"Category":"Electronics", "Products": ["TV", "Mobile", "Watch"]},
+         {"Category":"Footwear", "Products": ["Casuals", "Sneakers", "Boots"]}
+    ];
+
+    return(
+        <div className="container-fluid">
+            <h2>Menu</h2>
+            <ol>
+                {
+                    menu.map(item=>
+                        <li>{item.Category}
+                            <ul>
+                                {
+                                    item.Products.map(product=>
+                                        <li>{product}</li>
+                                        )
+                                }
+                            </ul>
+                        </li>
+                        )
+                }
+            </ol>
+        </div>
+
+    )
+}
+
+Ex:
+data-binding.jsx
+
+
+export function DataBinding(){
+    
+    var menu = [
+         {"Category":"Electronics", "Products": ["TV", "Mobile", "Watch"]},
+         {"Category":"Footwear", "Products": ["Casuals", "Sneakers", "Boots"]}
+    ];
+
+    return(
+        <div className="container-fluid">
+            <h2>Menu</h2>
+            <select>
+                {
+                    menu.map(item=>
+                         <optgroup label={item.Category}>
+                            {
+                                item.Products.map(product=>
+                                    <option>{product}</option>
+                                    )
+                            }
+                         </optgroup>
+                        )
+                }
+            </select>
+        </div>
+
+    )
+}
+
+Ex:
+data-binding.jsx
+
+
+export function DataBinding(){
+    
+    var topics = [
+        {"title": "HTML", "description": "It is a markup language"},
+        {"title": "CSS", "description": "It configures styles for HTML"}
+    ];
+
+    return(
+        <div className="container-fluid">
+            <h2>Topics</h2>
+            <dl>
+                {
+                    topics.map(topic=>
+                        <>
+                         <dt>{topic.title}</dt>
+                         <dd>{topic.description}</dd>
+                        </>
+                        )
+                }
+            </dl>
+        </div>
+
+    )
+}
+
+Ex:
+
+export function DataBinding(){
+    
+    var data = [[10,20,30], [40,50,60]];
+    return(
+        <div className="container-fluid">
+           <table className="table table-bordered">
+           {
+                data.map(row=>
+                     <tr>
+                        {
+                            row.map(value=>
+                                <td>{value}</td>
+                                )
+                        }
+                     </tr>
+                    )
+            }
+           </table>
+        </div>
+
+    )
+}
+
+
+Note: Every repeating element in react dynamic code must have a unique reference "key".
+
+                            State
