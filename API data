@@ -1,0 +1,305 @@
+Task:
+ data-binding.jsx
+
+import { useState } from "react";
+
+export function DataBinding(){
+    
+    const [product, setProduct] = useState({Name:'TV', Price:0, City: 'Select City', Stock: true})
+    const [updatedproduct, setUpdatedProduct] = useState({Name:'TV', Price:0, City: 'Select City', Stock: true});
+    function NameChange(e){
+        setProduct({
+            Name: e.target.value,
+            Price: product.Price,
+            City: product.City,
+            Stock: product.Stock
+        })
+    }
+    function PriceChange(e){
+        setProduct({
+            Price: e.target.value,
+            Name: product.Name,
+            City: product.City,
+            Stock: product.Stock
+        })
+    }
+    function CityChange(e){
+        setProduct({
+            City: e.target.value,
+            Name: product.Name,
+            Price: product.Price,
+            Stock: product.Stock
+        })
+    }
+    function StockChange(e){
+        setProduct({
+            Stock: e.target.checked,
+            Name: product.Name,
+            Price: product.Price,
+            City: product.City
+        })
+    }
+
+    function UpdateClick(){
+       setUpdatedProduct({
+          Name: product.Name,
+          Price: product.Price,
+          City: product.City,
+          Stock: product.Stock
+       })
+    }
+
+    return(
+        <div className="container-fluid">
+           <div className="row mt-4">
+                <div className="col-4">
+                    <dl>
+                        <dt>Name</dt>
+                        <dd><input onChange={NameChange} type="text" value={product.Name} className="form-control"/></dd>
+                        <dt>Price</dt>
+                        <dd><input onChange={PriceChange} type="number" value={product.Price} className="form-control"/></dd>
+                        <dt>City</dt>
+                        <dd>
+                            <select onChange={CityChange} className="form-select" value={product.City}>
+                                <option>Select City</option>
+                                <option>Delhi</option>
+                                <option>Hyd</option>
+                                <option>Chennai</option>
+                            </select>
+                        </dd>
+                        <dt>Stock</dt>
+                        <dd className="form-switch">
+                            <input type="checkbox" onChange={StockChange} checked={product.Stock} className="form-check-input"/> <label> {(product.Stock==true)?"Available":"Out of Stock"} </label>
+                        </dd>
+                    </dl>
+                    <button onClick={UpdateClick} className="btn btn-primary w-100">Update</button>
+                </div>
+                <div className="col-8">
+                    <h2>Product Details</h2>
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>{updatedproduct.Name}</dd>
+                        <dt>Price</dt>
+                        <dd>{updatedproduct.Price}</dd>
+                        <dt>City</dt>
+                        <dd>{updatedproduct.City}</dd>
+                        <dt>Stock</dt>
+                        <dd>
+                            {(updatedproduct.Stock==true)?"Available":"Out of Stock"}
+                        </dd>
+                    </dl>
+                </div>
+           </div>
+        </div>
+
+    )
+}
+
+                    Distributed Computing Architecture
+- Distributed computing allows 2 different applications running or 2 different devices to share information. or 2 different applications running in 2 different process of same device can share information.
+
+- There are a various distributed computing technologies
+
+    CORBA            - Common Request Broken Architecture [14 lang]
+    DCOM            - Distribute Component Object Model [VB]
+    RMI                - Remote Method Invocation [J2EE]
+    EJB                - Enterprise Java Beans  [Java]
+    Web Service        - All technologies [Java, .NET, PHP, python...]
+    Remoting          - .NET
+
+- Web Service handle communication in 3 ways
+
+    a) SOAP
+    b) REST
+    c) JSON
+
+- SOAP [Service Oriented Architecture Protocol]
+
+    consumer => XML request
+    provider => XML response
+
+- REST [Representational State Transfer]
+
+    consumer => Query Request
+    provider => XML Response or JSON Response
+
+    ?category=mobiles            <> {  }
+
+- JSON [JavaScript Object Notation]
+    
+    consumer => JSON Request
+    provider => JSON Response
+
+- API is Application Programming Interface that handle communication between client and server by transporting data.
+- API intention is to make data available for any device or any OS services.
+- JavaScript can access data from API using
+        a) fetch() promise
+        b) XMLHttpRequest  object
+- React can use both JavaScript methods to handle communication with API data.
+
+Syntax:
+        fetch("url").then(onsuccess).catch(onfailure).finally(always)
+
+Ex:
+1. Go to public folder and add 
+        "product.json"
+
+{
+    "title": "realme C53 (Champion Gold, 64 GB)",
+    "price": 10999,
+    "ratings": {"rate":4.5, "count":14909, "reviews":705},
+    "features": [
+        "6 GB RAM | 64 GB ROM | Expandable Upto 2 TB",
+        "17.12 cm (6.74 inch) HD Display",
+        "108MP + 2MP | 8MP Front Camera",
+        "5000 mAh Battery",
+        "T612 Processor",
+        "1 Year Manufacturer Warranty for Phone and 6 Months Warranty for In the Box Accessories"
+    ],
+    "photo": "realme.jpg"
+}
+
+2. Add a component
+
+    flipkart.jsx
+
+import { useState } from "react";
+
+export function Flipkart(){
+
+    const [product, setProduct] = useState({title:'', price:0, ratings:{rate:0, count:0, reviews:0}, features:[], photo:''});
+
+    function LoadClick(){
+        fetch("product.json")
+        .then(response=>{
+            return response.json();
+        })
+        .then(product=> {
+            setProduct(product);
+        })
+    }
+
+    return(
+        <div className="container-fluid">
+            <button onClick={LoadClick} className="btn btn-primary mt-3">Load Data</button>
+            <div className="row mt-4">
+                <div className="col-3">
+                    <img src={product.photo} width="250"/>
+                </div>
+                <div className="col-7">
+                    <p className="text-primary h4">{product.title}</p>
+                    <div>
+                        <span className="bg-success text-white p-2 rounded">
+                            {product.ratings.rate} <span className="bi bi-star-fill"></span>
+                        </span>
+                        <span className="ms-3">
+                            <b>{product.ratings.count} Ratings & {product.ratings.reviews} Reviews</b> 
+                        </span>
+                    </div>
+                    <ul className="mt-4">
+                        {
+                            product.features.map(feature=>
+                                <li key={feature}>{feature}</li>
+                                )
+                        }
+                    </ul>
+                </div>
+                <div className="col-2">
+                    <p className="h3">&#8377; {product.price} </p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+Ex:
+products.json
+
+[
+    {
+        "title": "realme C53 (Champion Gold, 64 GB)",
+        "price": 10999,
+        "ratings": {"rate":4.5, "count":14909, "reviews":705},
+        "features": [
+            "6 GB RAM | 64 GB ROM | Expandable Upto 2 TB",
+            "17.12 cm (6.74 inch) HD Display",
+            "108MP + 2MP | 8MP Front Camera",
+            "5000 mAh Battery",
+            "T612 Processor",
+            "1 Year Manufacturer Warranty for Phone and 6 Months Warranty for In the Box Accessories"
+        ],
+        "photo": "realme.jpg"
+    },
+    {
+        "title": "realme C53 (Champion Black, 164 GB)",
+        "price": 15999,
+        "ratings": {"rate":4.5, "count":14909, "reviews":705},
+        "features": [
+            "6 GB RAM | 164 GB ROM | Expandable Upto 2 TB",
+            "17.12 cm (6.74 inch) HD Display",
+            "108MP + 2MP | 8MP Front Camera",
+            "5000 mAh Battery",
+            "T612 Processor",
+            "1 Year Manufacturer Warranty for Phone and 6 Months Warranty for In the Box Accessories"
+        ],
+        "photo": "realmeBlack.jpg"
+    }
+]
+
+flipkart.jsx
+
+import { useState } from "react";
+
+export function Flipkart(){
+
+    const [products, setProducts] = useState([{title:'', price:0, ratings:{rate:0, count:0, reviews:0}, features:[], photo:''}]);
+
+    function LoadClick(){
+        fetch("products.json")
+        .then(response=>{
+            return response.json();
+        })
+        .then(products=> {
+            setProducts(products);
+        })
+    }
+
+    return(
+        <div className="container-fluid">
+            <button onClick={LoadClick} className="btn btn-primary mt-3">Load Data</button>
+             {
+                products.map(product=>
+                    <div className="row mt-4" key={product.title}>
+                    <div className="col-3">
+                        <img src={product.photo} width="250"/>
+                    </div>
+                    <div className="col-7">
+                        <p className="text-primary h4">{product.title}</p>
+                        <div>
+                            <span className="bg-success text-white p-2 rounded">
+                                {product.ratings.rate} <span className="bi bi-star-fill"></span>
+                            </span>
+                            <span className="ms-3">
+                                <b>{product.ratings.count} Ratings & {product.ratings.reviews} Reviews</b> 
+                            </span>
+                        </div>
+                        <ul className="mt-4">
+                            {
+                                product.features.map(feature=>
+                                    <li key={feature}>{feature}</li>
+                                    )
+                            }
+                        </ul>
+                    </div>
+                    <div className="col-2">
+                        <p className="h3">&#8377; {product.price} </p>
+                    </div>
+                    
+                    </div>
+                    
+                    )
+             }
+        </div>
+    )
+}
