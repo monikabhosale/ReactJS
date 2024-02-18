@@ -1,0 +1,252 @@
+Style Binding
+- It is the technique used to bind inline styles to any element in react component.
+- So that you can change the appearence of any element dynamically.
+
+Syntax: JavaScript
+        <div>
+
+        document.querySelector("div").style.attributeName = "value";
+
+        CSS Attribute            Dynamic Name
+        ------------------------------------------------------
+        color                color
+        background-color        backgroundColor
+        font-size                fontSize
+        text-align                textAlign
+
+        document.querySelector("div").style.fontSize = "20px";
+
+- React uses a data binding expression to bind the dynamic styles "{ }"
+
+Syntax: React Style Binding
+
+        <div  style={ {styleBlock} }>
+        <div  style="color:red">            // invalid
+        <div  style={ {color:'red'} }>        // valid
+
+        <div style={ {backgroundColor:'red', color:'white', textAlign:'center'} }>
+
+Note: Style attributes in React are defined as  "style object", which is a key and value       
+      collection.
+
+            {attribute1:value, attribute2:value}
+
+FAQ: What is difference between display:none and visibility:hidden?
+Ans:   display:none will hide the element and removes allocated space.
+      visibility:hidden will hide the element but keeps the allocated space.
+
+Syntax:
+        <div  style={ {display:'none' } }>
+        <div  style={ {visibility:'hidden'} }>
+
+Ex:  Validation
+style-binding.jsx
+
+import { useEffect, useState } from "react"
+
+export function StyleBinding(){
+
+    const [styleObject, setStyleObject] = useState({border:'', boxShadow:''})
+
+    useEffect(()=>{
+        setStyleObject({
+            border: '1px solid red',
+            boxShadow: '2px 2px 2px red'
+        })
+    },[]);
+
+    function handleNameChange(e){
+        if(e.target.value==""){
+            setStyleObject({
+                border: '1px solid red',
+                boxShadow: '2px 2px 2px red'
+            })
+        } else {
+            setStyleObject({
+                border: '1px solid green',
+                boxShadow: '2px 2px 2px green'
+            })
+        }
+    }
+
+    return(
+        <div className="container-fluid">
+            <h3>User Login</h3>
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" placeholder="Name Required" onChange={handleNameChange} style={styleObject} /></dd>
+            </dl>
+        </div>
+    )
+}
+
+Ex: Hide Toggle
+style-binding.jsx
+
+import { useEffect, useState } from "react"
+
+export function StyleBinding(){
+
+    const [styleObj, setStyleObj] = useState({display:'none'});
+
+    function  handlePreviewChange(e){
+        if(e.target.checked){
+            setStyleObj({
+                display:'block'
+            })
+        } else {
+            setStyleObj({
+                display:'none'
+            })
+        }
+    }
+
+    return(
+        <div className="container-fluid">
+           <h2>Product Details</h2>
+           <dl>
+            <dt>Name</dt>
+            <dd>Realme C55</dd>
+            <dt>Preview <span className="form-switch"> <input type="checkbox" onChange={handlePreviewChange} className="form-check-input" /> </span> </dt>
+            <dd style={styleObj}>
+                <img src="realme.jpg" />
+            </dd>
+           </dl>
+        </div>
+    )
+}
+
+                            Class Binding
+- Class binding is the technique used to bind any CSS class to HTML element dynamically.
+- Usually class comprises of a set of css attributes.
+
+Syntax:
+        .effects {
+             color:red;
+             font-size: 20px;
+             border: 2px solid red;
+         }
+        <div> </div>
+
+        document.querySelector("div").className = "effects";
+        document.querySelector("div").className="class1 class2 class3..";
+
+- React uses "className" property with a data binding expression to bind multiple classes dynamically.
+
+        <div className={ 'className' } >
+
+Ex:
+1. Add following file into folder "class-binding"
+    class-binding.css
+    class-binding.jsx
+
+2. class-binding.css
+
+.dark-theme {
+    background-color: black;
+    color:white;
+    padding: 20px;
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+.light-theme {
+    background-color: white;
+    color:black;
+    padding: 20px;
+    border:2px solid black;
+    border-radius: 10px;
+}
+
+3. class-binding.jsx
+
+import { useState } from "react";
+import './class-binding.css';
+
+export function ClassBinding(){
+
+    const [colorTheme, setColorTheme] = useState('light-theme');
+    const [buttonTheme, setButtonTheme]= useState('btn btn-dark w-100');
+
+    function handleThemeChange(e){
+        if(e.target.checked) {
+            setColorTheme('dark-theme');
+            setButtonTheme('btn btn-light w-100');
+        } else {
+            setColorTheme('light-theme');
+            setButtonTheme('btn btn-dark w-100');
+        }
+    }
+
+    return(
+        <div className="container-fluid">
+            <div className="d-flex justify-content-center align-items-center" style={{height:'100vh'}}>
+                <form className={colorTheme}>
+                    <div className="form-switch">
+                        <input type="checkbox" onChange={handleThemeChange}  className="form-check-input"/> Dark Theme
+                    </div>
+                    <h3>User Login</h3>
+                    <dl>
+                        <dt>User Name</dt>
+                        <dd><input type="text" className="form-control"/></dd>
+                        <dt>Password</dt>
+                        <dd><input type="password" className="form-control"/></dd>
+                    </dl>
+                    <button className={buttonTheme}>Login</button>
+                </form>
+            </div>
+        </div>
+    )
+}
+
+Ex: Class Binding with bootstrap classes
+
+import { useState } from "react";
+
+
+export function ClassBinding(){
+
+    const [colorTheme, setColorTheme] = useState('bg-light text-dark p-4 border border-3 border-dark rounded rounded-3');
+    const [buttonTheme, setButtonTheme]= useState('btn btn-dark w-100');
+
+    function handleThemeChange(e){
+        if(e.target.checked) {
+        setColorTheme('bg-dark text-white p-4 border border-3 border-warning rounded rounded-3');
+            setButtonTheme('btn btn-light w-100');
+        } else {
+            setColorTheme('bg-light text-dark p-4 border border-3 border-dark rounded rounded-3');
+            setButtonTheme('btn btn-dark w-100');
+        }
+    }
+
+    return(
+        <div className="container-fluid">
+            <div className="d-flex justify-content-center align-items-center" style={{height:'100vh'}}>
+                <form className={colorTheme}>
+                    <div className="form-switch">
+                        <input type="checkbox" onChange={handleThemeChange}  className="form-check-input"/> Dark Theme
+                    </div>
+                    <h3>User Login</h3>
+                    <dl>
+                        <dt>User Name</dt>
+                        <dd><input type="text" className="form-control"/></dd>
+                        <dt>Password</dt>
+                        <dd><input type="password" className="form-control"/></dd>
+                    </dl>
+                    <button className={buttonTheme}>Login</button>
+                </form>
+            </div>
+        </div>
+    )
+}
+                        
+                           Event Binding
+- Event is a message sent by sender to it subscriber in order to notify the change.
+- Event follows a software design pattern called "observer", which is a behavioural pattern. [communication pattern]
+- Event uses "Delegate Mechanism" [Function Pointer]
+
+Syntax:
+    function InsertClick()    => Subscriber
+    {
+    }
+
+    <button onclick="InsertClick()">   => Sender
