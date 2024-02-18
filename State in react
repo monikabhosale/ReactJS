@@ -1,0 +1,181 @@
+Note: 
+- Don't use variables in a component for handling dynamic data.
+- Variables are immutable, their structure can't change according state and situation
+- Component requires mutable references for customization.
+- Variables are disposed after the defined scope. You can't carry data across       
+   requests.
+- Http is a state less protocol.
+- Http uses the mechanism "Go-Get-Forget".
+- Http can't remember information between requests.
+- Stateless nature of Http is an advantage for Server, as it manages memory by disposing after the response.
+- State less is a drawback for client, as client have to remind server about the previous details everytime when requested.
+
+What is the solution?
+- Web applications implement "State Management Techniques" to handle state.
+- State Management can be handled both
+    a) Client Side 
+    b) Server Side
+
+What is Client Side State Management?
+- Application uses client's memory to store data and make it available across requests.
+- Various client storages include
+    a) localStorage
+    b) sessionStorage
+    c) Cookies
+    d) QueryString etc..
+
+What is difference between various client side state techniques?
+a) Local Storage
+    - It is permanent.
+    - It keeps the data even after client system shut down or restart.
+    - It is accessible across tabs.
+    - You have to manually clear the local storage.
+
+    Syntax:
+        localStorage.setItem("Key", value);
+        localStorage.getItem("Key");
+
+b) Session Storage
+    - It is temporary.
+    - It is only for current tab in browser.
+    - Data is removed once tab is closed.
+    - It is not accessible across tabs in browser.
+
+    Syntax:
+        sessionStorage.setItem("key", value);
+        sessionStorage.getItem("key");
+
+Ex:
+ home.html
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function SubmitClick(){
+            var username = document.getElementById("UserName").value;
+            sessionStorage.setItem("uname", username);   
+            location.href ="welcome.html";
+        }
+    </script>
+</head>
+<body>
+    <h2>Home</h2>
+    <input type="text" id="UserName"> <button onclick="SubmitClick()">Submit</button>
+</body>
+</html>
+
+welcome.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function bodyload(){
+            document.querySelector("div").innerHTML = "Hello ! " + sessionStorage.getItem("uname");
+        }
+    </script>
+</head>
+<body onload="bodyload()">
+    <h2>Welcome</h2>
+    <div></div>
+</body>
+</html>
+
+c) Cookies
+
+  - Cookie is a simple text document where client details are stored.
+  - Cookie can be 
+    a) In-memory  [Temporary]
+    b) Persistent  [Permanent]
+  - You can set expiry for cookie.
+  
+Syntax
+    document.cookie = "value;attributes";
+
+d) Query String
+   - It appends data into URL and keeps in address bar.
+   - It is not safe, easy to hack, stored in browser logs, can be bookmarked.
+   - You can't handle complex data [like binary]
+   - Max limit is 2048.
+   - You can access querystring using "location.search".
+
+Ex:
+home.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+    <h2>Home</h2>
+    <form action="welcome.html">
+        <input type="text" name="UserName"> <button>Submit</button>
+    </form>
+</body>
+</html>
+
+welcome.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function bodyload(){
+            var str = location.search;
+            var uname = str.substring(str.indexOf("=")+1);
+            document.querySelector("div").innerHTML = " Hi ! " + uname;
+        }
+    </script>
+</head>
+<body onload="bodyload()">
+    <h2>Welcome</h2>
+    <div></div>
+</body>
+</html>
+
+                        React Component State
+- React 17+ version introduced "useState()" hook for configuring state in function component.
+- Early versions of React component can have state only for class component.
+- State is mutable.
+- State must be initialized, It can't be assigned or declared.
+- Hence state in react is configure using "const"
+
+    const [getter, setter] = useState(anyValue);
+    setter(newValue);
+    
+Ex:
+data-binding.jsx
+
+import { useState } from "react";
+
+export function DataBinding(){
+    
+    const [categories] = useState(["All", "Electronics", "Footwear"]);    
+   
+    return(
+        <div className="container-fluid">
+             <ol>
+                {
+                    categories.map(category=>
+                        <li key={category}>{ category }</li>
+                        )
+                }
+             </ol>
+        </div>
+
+    )
+}
