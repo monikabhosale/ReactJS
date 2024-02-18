@@ -1,0 +1,151 @@
+Data Binding
+1. One Way Binding
+2. Two Way Binding
+- It is a data binding technique where data is accessed from source and binded to UI.
+- It identifies the changes in UI and updates the source.
+- Changes in UI are detected by using "onChange" event.
+- It uses "Change Detection" pattern, which verifies the previous and current value.
+    
+        previousValue == currentValue    => No Change Detected
+        previousValue !== currentValue    => Change Detected
+
+- OnChange you can configure a function to execute.
+
+    <input type="text"  onChange={handleNameChange}>
+
+    function handleNameChange()
+    {
+    }
+
+- JavaScript event have default arguments
+    a) this        : sends information about current element
+    b) event        : sends information about current event
+
+-  React event uses only one default argument that is "event".
+
+        event.eventDetails
+        event.target.elementDetails
+
+Syntax:
+    function handleNameChange(e)
+    {
+        e.target.name;
+        e.target.value
+        e.target.className;
+        e.target.id;
+        e.clientX;
+        e.ctrlKey;
+    }
+
+Ex:
+data-binding.jsx
+----------------------
+import { useState } from "react";
+
+export function DataBinding(){
+    
+    const [userName, setUserName] = useState('John');
+
+    function handleNameChange(event){
+        setUserName(event.target.value);
+    }
+    
+    return(
+        <div className="container-fluid">
+            <dl>
+                <dt>User Name</dt>
+                <dd><input type="text" value={userName} onChange={handleNameChange} /></dd>
+            </dl>
+            <p>Hello ! {userName} </p>
+        </div>
+
+    )
+}
+
+Ex: 
+data-binding.jsx
+
+
+import { useState } from "react";
+
+export function DataBinding(){
+    
+    const [product, setProduct] = useState({Name:'TV', Price:0, City: 'Select City', Stock: true})
+
+    function NameChange(e){
+        setProduct({
+            Name: e.target.value,
+            Price: product.Price,
+            City: product.City,
+            Stock: product.Stock
+        })
+    }
+    function PriceChange(e){
+        setProduct({
+            Price: e.target.value,
+            Name: product.Name,
+            City: product.City,
+            Stock: product.Stock
+        })
+    }
+    function CityChange(e){
+        setProduct({
+            City: e.target.value,
+            Name: product.Name,
+            Price: product.Price,
+            Stock: product.Stock
+        })
+    }
+    function StockChange(e){
+        setProduct({
+            Stock: e.target.checked,
+            Name: product.Name,
+            Price: product.Price,
+            City: product.City
+        })
+    }
+
+    return(
+        <div className="container-fluid">
+           <div className="row mt-4">
+                <div className="col-4">
+                    <dl>
+                        <dt>Name</dt>
+                        <dd><input onChange={NameChange} type="text" value={product.Name} className="form-control"/></dd>
+                        <dt>Price</dt>
+                        <dd><input onChange={PriceChange} type="number" value={product.Price} className="form-control"/></dd>
+                        <dt>City</dt>
+                        <dd>
+                            <select onChange={CityChange} className="form-select" value={product.City}>
+                                <option>Select City</option>
+                                <option>Delhi</option>
+                                <option>Hyd</option>
+                                <option>Chennai</option>
+                            </select>
+                        </dd>
+                        <dt>Stock</dt>
+                        <dd className="form-switch">
+                            <input type="checkbox" onChange={StockChange} checked={product.Stock} className="form-check-input"/> <label> {(product.Stock==true)?"Available":"Out of Stock"} </label>
+                        </dd>
+                    </dl>
+                </div>
+                <div className="col-8">
+                    <h2>Product Details</h2>
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>{product.Name}</dd>
+                        <dt>Price</dt>
+                        <dd>{product.Price}</dd>
+                        <dt>City</dt>
+                        <dd>{product.City}</dd>
+                        <dt>Stock</dt>
+                        <dd>
+                            {(product.Stock==true)?"Available":"Out of Stock"}
+                        </dd>
+                    </dl>
+                </div>
+           </div>
+        </div>
+
+    )
+}
