@@ -1,0 +1,122 @@
+Props are arguments passed into React components.
+
+Props are passed to components via HTML attributes.
+
+props stands for properties.
+
+React Props
+React Props are like function arguments in JavaScript and attributes in HTML.
+
+To send props into a component, use the same syntax as HTML attributes:
+
+ExampleGet your own React.js Server
+Add a "brand" attribute to the Car element:
+
+const myElement = <Car brand="Ford" />;
+
+The component receives the argument as a props object:
+
+Example
+Use the brand attribute in the component:
+
+function Car(props) {
+  return <h2>I am a { props.brand }!</h2>;
+}
+
+*************************************************************
+
+Pass Data
+Props are also how you pass data from one component to another, as parameters.
+
+Example
+Send the "brand" property from the Garage component to the Car component:
+
+function Car(props) {
+  return <h2>I am a { props.brand }!</h2>;
+}
+
+function Garage() {
+  return (
+    <>
+      <h1>Who lives in my garage?</h1>
+      <Car brand="Ford" />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage />);
+*************************************************************************************************
+
+Create a variable named carName and send it to the Car component:
+
+function Car(props) {
+  return <h2>I am a { props.brand }!</h2>;
+}
+
+function Garage() {
+  const carName = "Ford";
+  return (
+    <>
+      <h1>Who lives in my garage?</h1>
+      <Car brand={ carName } />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage />);
+
+************************************************************************************************
+Create an object named carInfo and send it to the Car component:
+
+function Car(props) {
+  return <h2>I am a { props.brand.model }!</h2>;
+}
+
+function Garage() {
+  const carInfo = { name: "Ford", model: "Mustang" };
+  return (
+    <>
+      <h1>Who lives in my garage?</h1>
+      <Car brand={ carInfo } />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage />);
+
+*****************************************************************************************
+React Events
+Just like HTML DOM events, React can perform actions based on user events.
+
+React has the same events as HTML: click, change, mouseover etc.
+
+Adding Events
+React events are written in camelCase syntax:
+
+onClick instead of onclick.
+
+React event handlers are written inside curly braces:
+
+onClick={shoot}  instead of onclick="shoot()".
+
+*******************************************************************************************
+
+Put the shoot function inside the Football component:
+
+function Football() {
+  const shoot = () => {
+    alert("Great Shot!");
+  }
+
+  return (
+    <button onClick={shoot}>Take the shot!</button>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Football />);
+**********************************************************************************************
+
