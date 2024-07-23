@@ -1,26 +1,36 @@
 Lifecycle of Components
-Each component in React has a lifecycle which you can monitor and manipulate during its three main phases.
 
-The three phases are: Mounting, Updating, and Unmounting.
+Each component in React has a lifecycle which you can monitor and manipulate during its three main phases
+
+*****************************************************************************************************
+The three phases are:
+Mounting, 
+Updating, and 
+Unmounting.
+*****************************************************************************************************
 Mounting
 Mounting means putting elements into the DOM.
-
+*****************************************************************************************************
 React has four built-in methods that gets called, in this order, when mounting a component:
-
+*****************************************************************************************************
 constructor()
 getDerivedStateFromProps()
 render()
 componentDidMount()
+*****************************************************************************************************
 The render() method is required and will always be called, the others are optional and will be called if you define them.
 
 constructor
-The constructor() method is called before anything else, when the component is initiated, and it is the natural place to set up the initial state and other initial values.
-
+The constructor() method is called before anything else, when the component is initiated, and 
+it is the natural place to set up the initial state and other initial values.
+*****************************************************************************************************
 The constructor() method is called with the props, as arguments, and you should always start by calling the super(props)
-before anything else, this will initiate the parent's constructor method and allows the component to inherit methods from its parent (React.Component).
+before anything else, this will initiate the parent's constructor method and allows the component to inherit
+methods from its parent (React.Component).
+*****************************************************************************************************
 Example:
 The constructor method is called, by React, every time you make a component:
-
+*****************************************************************************************************
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -32,15 +42,15 @@ class Header extends React.Component {
     );
   }
 }
-
+*****************************************************************************************************
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header />);
 
-***********************************************************************************
-
+*****************************************************************************************************
 getDerivedStateFromProps
-The getDerivedStateFromProps() method is called right before rendering the element(s) in the DOM.
 
+The getDerivedStateFromProps() method is called right before rendering the element(s) in the DOM.
+*****************************************************************************************************
 This is the natural place to set the state object based on the initial props.
 
 It takes state as an argument, and returns an object with changes to the state.
@@ -54,6 +64,8 @@ class Header extends React.Component {
     super(props);
     this.state = {favoritecolor: "red"};
   }
+*****************************************************************************************************
+
   static getDerivedStateFromProps(props, state) {
     return {favoritecolor: props.favcol };
   }
@@ -88,10 +100,11 @@ root.render(<Header />);
 *****************************************************************************************************
 
 componentDidMount
+
 The componentDidMount() method is called after the component is rendered.
 
 This is where you run statements that requires that the component is already placed in the DOM.
-
+*****************************************************************************************************
 Example:
 At first my favorite color is red, but give me a second, and it is yellow instead:
 
@@ -105,37 +118,42 @@ class Header extends React.Component {
       this.setState({favoritecolor: "yellow"})
     }, 1000)
   }
-  render() {
+ render() {
     return (
       <h1>My Favorite Color is {this.state.favoritecolor}</h1>
     );
   }
 }
-
+*****************************************************************************************************
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header />);
-
+*****************************************************************************************************
 Updating
+*****************************************************************************************************
 The next phase in the lifecycle is when a component is updated.
 
 A component is updated whenever there is a change in the component's state or props.
 
 React has five built-in methods that gets called, in this order, when a component is updated:
-
+*****************************************************************************************************
 getDerivedStateFromProps()
 shouldComponentUpdate()
 render()
 getSnapshotBeforeUpdate()
 componentDidUpdate()
+*****************************************************************************************************
 The render() method is required and will always be called, the others are optional and will be called if you define them.
 
 getDerivedStateFromProps
-Also at updates the getDerivedStateFromProps method is called. This is the first method that is called when a component gets updated.
+Also at updates the getDerivedStateFromProps method is called. This is the first method that is called when 
+a component gets updated.
 
 This is still the natural place to set the state object based on the initial props.
 
-The example below has a button that changes the favorite color to blue, but since the getDerivedStateFromProps() method is called, which updates the state with the color from the favcol attribute, the favorite color is still rendered as yellow:
-
+The example below has a button that changes the favorite color to blue, but since the getDerivedStateFromProps() 
+method is called, which updates the state with the color from the favcol attribute, the favorite color is still 
+rendered as yellow:
+*****************************************************************************************************
 Example:
 If the component gets updated, the getDerivedStateFromProps() method is called:
 
@@ -164,12 +182,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header favcol="yellow" />);
 
 shouldComponentUpdate
-In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not.
+In the shouldComponentUpdate() method you can return a Boolean value that specifies whether
+React should continue with the rendering or not.
 
 The default value is true.
 
 The example below shows what happens when the shouldComponentUpdate() method returns false:
-
+*****************************************************************************************************
 Example:
 Stop the component from rendering at any update:
 
@@ -193,10 +212,10 @@ class Header extends React.Component {
     );
   }
 }
-
+*****************************************************************************************************
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header />);
-
+*****************************************************************************************************
 Example:
 Same example as above, but this time the shouldComponentUpdate() method returns true instead:
 
@@ -223,12 +242,12 @@ class Header extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header />);
-
+*****************************************************************************************************
 render
 The render() method is of course called when a component gets updated, it has to re-render the HTML to the DOM, with the new changes.
 
 The example below has a button that changes the favorite color to blue:
-
+*****************************************************************************************************
 Example:
 Click the button to make a change in the component's state:
 
@@ -268,7 +287,7 @@ This action triggers the update phase, and since this component has a getSnapsho
 
 Then the componentDidUpdate() method is executed and writes a message in the empty DIV2 element:
 
- 
+ *****************************************************************************************************
 
 Example:
 Use the getSnapshotBeforeUpdate() method to find out what the state object looked like before the update:
@@ -315,7 +334,7 @@ When the component is mounting it is rendered with the favorite color "red".
 When the component has been mounted, a timer changes the state, and the color becomes "yellow".
 
 This action triggers the update phase, and since this component has a componentDidUpdate method, this method is executed and writes a message in the empty DIV element:
-
+*****************************************************************************************************
 Example:
 The componentDidUpdate method is called after the update has been rendered in the DOM:
 
@@ -342,10 +361,10 @@ class Header extends React.Component {
     );
   }
 }
-
+*****************************************************************************************************
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Header />);
-
+*****************************************************************************************************
 Unmounting
 The next phase in the lifecycle is when a component is removed from the DOM, or unmounting as React likes to call it.
 
