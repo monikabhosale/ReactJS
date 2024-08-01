@@ -1,0 +1,136 @@
+What are the advantages of ReactJS?
+Increases the application’s performance with Virtual DOM
+
+JSX makes code easy to read and write
+
+It renders both on the client and server-side
+
+Easy to integrate with other frameworks (Angular, BackboneJS) since it is only a view library
+
+Easy to write UI Test cases and integration with tools such as JEST.
+****************************************************************************************************
+How does React work?
+
+React creates a virtual DOM. When state changes in a component it firstly runs
+ a "diffing" algorithm, which identifies what has changed in the virtual DOM. The second step is reconciliation, 
+where it updates the DOM with the results of the difference.
+
+**********************************************************************************************
+What is the use of refs?
+
+Refs provide a way to access DOM nodes or React elements created in the render method. 
+They should be avoided in most cases, however, they can be useful when we need direct access to 
+the DOM element or an instance of a component.
+
+There are a few good use cases for refs:
+
+Managing focus, text selection, or media playback.
+
+Triggering imperative animations.
+
+Integrating with third-party DOM libraries.
+
+Refs are created using React.createRef() and attached to React elements via the ref attribute. Refs are commonly assigned to an instance property when a component is constructed so they can be referenced throughout the component.
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();  }
+  render() {
+    return <div ref={this.myRef} />;  }
+}
+
+***********************************************************************************************************
+What are props in React?
+
+Props are inputs to a React component. They are single values or objects containing 
+a set of values that are passed to React Components on creation using a naming convention similar 
+to HTML-tag attributes. i.e, They are data passed down from a parent component to a child component.
+
+The primary purpose of props in React is to provide the following component functionality:
+
+Pass custom data to your React component.
+
+Trigger state changes.
+
+Use via this.props.reactProp inside component's render() method.
+
+For example, let us create an element with reactProp property,
+
+ <Element reactProp = "1" />
+This reactProp (or whatever you came up with) the name then becomes a property 
+attached to React's native props object which originally already exists on all 
+components created using React library.
+
+ props.reactProp;
+
+*******************************************************************************************************
+What is Context API in ReactJS?
+
+Context provides a way to pass data through the component tree without having to
+ pass props down manually at every level.
+
+Context is designed to share data that can be considered “global” for a tree of React components,
+ such as the current authenticated user, theme, or preferred language. Using context, 
+we can avoid passing props through intermediate elements.
+
+// Context lets us pass a value deep into the component tree
+// without explicitly threading it through every component.
+// Create a context for the current theme (with "light" as the default).
+const ThemeContext = React.createContext('light');
+
+class App extends React.Component {
+  render() {
+    // Use a Provider to pass the current theme to the tree below.
+    // Any component can read it, no matter how deep it is.
+    // In this example, we're passing "dark" as the current value.
+    return (
+      <ThemeContext.Provider value="dark">
+        <Toolbar />
+      </ThemeContext.Provider>
+    );
+  }
+}
+
+// A component in the middle doesn't have to
+// pass the theme down explicitly anymore.
+function Toolbar() {
+  return (
+    <div>
+      <ThemedButton />
+    </div>
+  );
+}
+
+class ThemedButton extends React.Component {
+  // Assign a contextType to read the current theme context.
+  // React will find the closest theme Provider above and use its value.
+  // In this example, the current theme is "dark".
+  static contextType = ThemeContext;
+  render() {
+    return <Button theme={this.context} />;
+  }
+}
+*****************************************************************************************
+What are React Hooks?
+
+Hooks are a new addition to React 16.8. They let you use state and other React features without writing a class.
+
+With Hooks, you can extract stateful logic from a component so it can be tested independently and reused. 
+Hooks allow you to reuse stateful logic without changing your component hierarchy.
+ This makes it easy to share Hooks among many components or with the community.
+**************************************************************************************************
+What are the major features of ReactJS?
+
+The major features of ReactJS are as follows,
+
+It uses VirtualDOM instead RealDOM considering that RealDOM manipulations are expensive.
+
+Supports server-side rendering
+
+Follows Unidirectional data flow or data binding
+
+Uses reusable/composable UI components to develop the view
+
+**********************************************************************************************
+
